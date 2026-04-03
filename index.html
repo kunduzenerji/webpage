@@ -392,25 +392,6 @@
       border: 1px solid rgba(0,0,0,0.05);
     }
 
-    @media (max-width: 1024px) {
-      .contact-layout {
-        -webkit-flex-direction: column;
-        flex-direction: column;
-        gap: 40px;
-      }
-      .contact-image {
-        min-height: 280px;
-        width: 100%;
-      }
-      .contact-form-side .section-title,
-      .contact-form-side .section-sub {
-        text-align: center;
-      }
-      .contact-form-side .section-sub {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
 
     .section-title {
       font-family: 'Space Grotesk', sans-serif;
@@ -729,7 +710,7 @@
       }
 
       .category-item {
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        padding-bottom: 56.25%;
       }
 
       .about-section {
@@ -760,6 +741,100 @@
 
       footer {
         padding: 60px 32px 40px;
+      }
+
+      .contact-layout {
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .contact-image {
+        min-height: 280px;
+        width: 100%;
+      }
+
+      .contact-form-side .section-title,
+      .contact-form-side .section-sub {
+        text-align: center;
+      }
+
+      .contact-form-side .section-sub {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (max-width: 767px) {
+      /* Hero */
+      .hero {
+        padding: 40px 20px;
+        min-height: 500px;
+      }
+      .hero-content h1 {
+        font-size: clamp(36px, 9vw, 52px);
+      }
+
+      /* Categories — tek sütun */
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+      .category-item {
+        padding-bottom: 75%;
+      }
+      .category-overlay {
+        padding: 24px;
+      }
+      .category-title {
+        font-size: 28px;
+      }
+      .category-desc {
+        max-width: 100%;
+      }
+
+      /* About */
+      .about-section {
+        padding: 60px 20px;
+      }
+      .about {
+        gap: 32px;
+      }
+      .about-stats {
+        gap: 20px;
+      }
+      .stat-item {
+        padding: 20px 16px;
+      }
+      .stat-number {
+        font-size: 36px;
+      }
+
+      /* Contact */
+      #iletisim {
+        padding: 60px 20px;
+      }
+      .contact-image {
+        display: none;
+      }
+      .section-sub {
+        font-size: 16px;
+        margin-bottom: 32px;
+      }
+      .form-container {
+        padding: 24px 16px;
+        border-radius: 16px;
+      }
+      .cf-phone-col-dial {
+        width: 90px;
+        min-width: 90px;
+      }
+
+      /* Footer */
+      footer {
+        padding: 40px 20px 24px;
+      }
+      .footer-bottom {
+        font-size: 13px;
       }
     }
   </style>
@@ -1011,7 +1086,14 @@
       var phoneNum = document.getElementById('cf-phone-number').value.trim();
       var fullPhone = phoneNum ? '+' + dialCode.replace(/\D/g, '') + ' ' + phoneNum : '';
 
-      var turnstileToken = (document.querySelector('[name="cf-turnstile-response"]') || {}).value || '';
+      var turnstileToken = '';
+      try {
+        if (typeof turnstile !== 'undefined') turnstileToken = turnstile.getResponse() || '';
+        if (!turnstileToken) {
+          var tsEl = document.querySelector('[name="cf-turnstile-response"]');
+          if (tsEl) turnstileToken = tsEl.value || '';
+        }
+      } catch(e) {}
 
       var data = {
         name:    name,
