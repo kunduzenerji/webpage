@@ -89,7 +89,7 @@ export async function onRequestPost({ request, env }) {
     return new Response(JSON.stringify({ error: 'Bot doğrulaması başarısız. Lütfen tekrar deneyin.' }), { status: 400, headers });
   }
 
-  // --- E-posta gönder (MailChannels) ---
+  // --- E-posta gönder (Resend) ---
   const toEmail = env.TO_EMAIL || 'info@kunduzenerji.com';
   const textBody = [
     `Ad Soyad : ${name.trim()}`,
@@ -101,15 +101,18 @@ export async function onRequestPost({ request, env }) {
     message.trim(),
   ].join('\n');
 
-  const mailRes = await fetch('https://api.mailchannels.net/tx/v1/send', {
+  const mailRes = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+    },
     body: JSON.stringify({
-      personalizations: [{ to: [{ email: toEmail }] }],
-      from: { email: 'form@kunduzenerji.com', name: 'Kunduz Enerji Form' },
-      reply_to: { email: email.trim(), name: name.trim() },
+      from: 'Kunduz Enerji Form <form@kunduzenerji.com>',
+      to: [toEmail],
+      reply_to: `${name.trim()} <${email.trim()}>`,
       subject: `Yeni İletişim Formu: ${name.trim()}`,
-      content: [{ type: 'text/plain', value: textBody }],
+      text: textBody,
     }),
   });
 
