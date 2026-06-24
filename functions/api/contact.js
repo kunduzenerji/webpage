@@ -108,7 +108,7 @@ export async function onRequestPost({ request, env }) {
       'Authorization': `Bearer ${env.RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: 'Kunduz Enerji Form <form@kunduzenerji.com>',
+      from: 'Kunduz Enerji Form <form@mail.kunduzenerji.com>',
       to: [toEmail],
       reply_to: `${name.trim()} <${email.trim()}>`,
       subject: `Yeni İletişim Formu: ${name.trim()}`,
