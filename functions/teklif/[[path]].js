@@ -22,12 +22,12 @@ const SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
   'Content-Security-Policy':
     "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
+    "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com data:; " +
     "img-src 'self' data: blob:; " +
     "media-src 'self' data: blob:; " +
-    "connect-src 'self' data: blob: https://cdn.jsdelivr.net https://www.gstatic.com; " +
+    "connect-src 'self' data: blob: https://cdn.jsdelivr.net https://www.gstatic.com https://cloudflareinsights.com; " +
     "worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'",
 };
 
